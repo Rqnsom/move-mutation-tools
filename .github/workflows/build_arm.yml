@@ -13,9 +13,19 @@ jobs:
   build:
 
     runs-on: ubuntu-22.04-arm
-    
     steps:
       - uses: actions/checkout@v4
-      - uses: aptos-labs/aptos-core/.github/actions/rust-setup@main
+
+      - uses: dsherret/rust-toolchain-file@v1
+    
+      - name: Linux - Setup dependencies
+        run: sudo apt-get update && sudo apt-get install build-essential ca-certificates clang curl git libpq-dev libssl-dev pkg-config lsof lld --no-install-recommends --assume-yes
+        shell: bash
+        
+      # Display the rust toolchain version being installed
+      - name: Setup rust toolchain
+        shell: bash
+        run: rustup show    
+      
       - name: Build
         run: RUSTFLAGS="--cfg tokio_unstable" cargo build -r
