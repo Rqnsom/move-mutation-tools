@@ -12,14 +12,14 @@ env:
 jobs:
   build:
 
-    runs-on: ubuntu-22.04-arm
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v4
 
       - uses: dsherret/rust-toolchain-file@v1
     
       - name: Linux - Setup dependencies
-        run: sudo apt-get update && sudo apt-get install libudev-dev libdw-dev build-essential ca-certificates clang curl git libpq-dev libssl-dev pkg-config lsof lld --no-install-recommends --assume-yes
+        run: sudo apt-get update && sudo apt-get install zip libudev-dev libdw-dev build-essential ca-certificates clang curl git libpq-dev libssl-dev pkg-config lsof lld --no-install-recommends --assume-yes
         shell: bash
         
       # Display the rust toolchain version being installed
@@ -29,3 +29,12 @@ jobs:
       
       - name: Build
         run: RUSTFLAGS="--cfg tokio_unstable" cargo build -r
+
+      - name: Zip script
+        run: zip-release.sh
+
+      - name: Upload Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: cli-builds-macos-x86-64
+          path: mutation-tools.zip
