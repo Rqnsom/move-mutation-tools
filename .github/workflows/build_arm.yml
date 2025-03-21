@@ -18,8 +18,8 @@ jobs:
 
       - uses: dsherret/rust-toolchain-file@v1
     
-      - name: Linux - Setup dependencies
-        run: sudo apt-get update && sudo apt-get install zip libudev-dev libdw-dev build-essential ca-certificates clang curl git libpq-dev libssl-dev pkg-config lsof lld --no-install-recommends --assume-yes
+      - name: Mac - Setup dependencies
+        run: brew update && brew install openssl lcov zip postgresql
         shell: bash
         
       # Display the rust toolchain version being installed
